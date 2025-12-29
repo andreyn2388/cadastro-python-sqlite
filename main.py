@@ -1,16 +1,10 @@
 import sqlite3
-# Isso importa o banco de dados no Python.
 
-#Agora vamos criar o banco:
-
+#  Conexão com o banco de dados
 conexao = sqlite3.connect("usuarios.db")
-
-# Criando uma tabela (onde os dados ficam)
-
-# Agora precisamos dizer como os dados serão guardados
-
 cursor = conexao.cursor()
 
+# 2️ Criação da tabela
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,42 +12,30 @@ CREATE TABLE IF NOT EXISTS usuarios (
     idade INTEGER
 )
 """)
-
 conexao.commit()
 
-# usuarios → nome da tabela
+#  Entrada de dados do usuário
+nome = input("Digite seu nome: ")
+idade = int(input("Digite sua idade: "))
 
-# id → número automático
-
-# nome → texto
-
-# idade → número
-
-# Recebendo dados do usuário
-nome = input("digite seu nome: ")
-idade = int(input("digite sua idade: "))
-
-# Salvando os dados no banco
-
+#  Inserção dos dados no banco
 cursor.execute(
-"insert into usuarios (nome, idade) values (?, ?)",
-(nome,idade)
+    "INSERT INTO usuarios (nome, idade) VALUES (?, ?)",
+    (nome, idade)
 )
-
 conexao.commit()
 
-# Mostrando os dados cadastrados
-
-cursor.execute("select * from usuarios")
+#  Consulta dos dados
+cursor.execute("SELECT * FROM usuarios")
 usuarios = cursor.fetchall()
 
-print("\nUsuarios cadastrados:")
-
+#  Exibição dos dados
+print("\nUsuários cadastrados:")
 for usuario in usuarios:
-    print(usuario)
+    print(f"ID: {usuario[0]} | Nome: {usuario[1]} | Idade: {usuario[2]}")
 
-# fechar a conexao
-
+#  Fechamento da conexão
 conexao.close()
+
 
 
